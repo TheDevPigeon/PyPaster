@@ -37,4 +37,4 @@ if __name__ == "__main__":
 
 
 
-
+pyinstaller --onefile --add-data "nbrcours.txt;." --icon="PyPasteIcon.png" mainv3.py
