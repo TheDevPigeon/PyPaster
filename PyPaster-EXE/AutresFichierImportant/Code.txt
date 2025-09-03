@@ -1,0 +1,40 @@
+def afficher_menu():
+    """Affiche les options du menu principal."""
+    # os.system('cls' if os.name == 'nt' else 'clear') # Décommentez pour effacer l'écran
+    print("\n  ╔══════════════════════════════════════════╗")
+    print("  ║              MENU PRINCIPAL              ║")
+    print("  ╠══════════════════════════════════════════╣")
+    print("  ║ 1. Copier la date dans le presse-papiers ║")
+    print("  ║ 2. Lancer le script N°2 (Exemple)        ║")
+    print("  ║ 3. Lancer le script N°3 (Exemple)        ║")
+    print("  ║ 4. Quitter le programme                  ║")
+    print("  ╚══════════════════════════════════════════╝")
+
+
+def main():
+    while True:
+        afficher_menu()
+        choix = input("Ecrit un chiffre de 1 a 4 pour selectionner un script")
+
+        if choix == '1':
+            script_copier_date()
+        elif choix == '2':
+            script_placeholder_2()
+        elif choix == '3':
+            script_placeholder_3()
+        elif choix == '4':
+            print("\nAu revoir")
+            break 
+        else:
+            print("\nEntre 1 et 4.")
+
+
+        input("\nAppuie sur Entrée pour retourner")
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+pyinstaller --onefile --add-data "nbrcours.txt;." --icon="PyPasteIcon.png" mainv3.py
