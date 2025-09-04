@@ -1,70 +1,130 @@
 import os
-import time
 import datetime
 import pyperclip
+import urllib.request
+kill = False  #⬅️ NEVER CHANGE THIS
 
 
-def script_copier_date():
+print(' /$$$$$$$            /$$$$$$$                       /$$                        ')
+print('| $$__  $$          | $$__  $$                     | $$                        ')
+print('| $$  \ $$ /$$   /$$| $$  \ $$ /$$$$$$   /$$$$$$$ /$$$$$$    /$$$$$$   /$$$$$$ ')
+print('| $$$$$$$/| $$  | $$| $$$$$$$/|____  $$ /$$_____/|_  $$_/   /$$__  $$ /$$__  $$')
+print('| $$____/ | $$  | $$| $$____/  /$$$$$$$|  $$$$$$   | $$    | $$$$$$$$| $$  \__/')
+print('| $$      | $$  | $$| $$      /$$__  $$ \____  $$  | $$ /$$| $$_____/| $$      ')
+print('| $$      |  $$$$$$$| $$     |  $$$$$$$ /$$$$$$$/  |  $$$$/|  $$$$$$$| $$      ')
+print('|__/       \____  $$|__/      \_______/|_______/    \___/   \_______/|__/      ')
+print('           /$$  | $$                                                           ')
+print('          |  $$$$$$/                                                           ')
+print('           \______/                                                            ')
 
-    print("\n--- Copie de la date ---")
+
+while not kill:
     try:
-        aujourdhui = datetime.date.today()
-        date_formatee = aujourdhui.strftime("%Y-%m-%d")
-        pyperclip.copy(date_formatee)
-        print(f"✅ Succès! La date '{date_formatee}' a été copiée.")
-    except pyperclip.PyperclipException:
-        print("❌ Erreur: Pyperclip n'a pas pu accéder au presse-papiers.")
-        print("   Veuillez vous assurer qu'un gestionnaire de presse-papiers est installé (ex: xclip sur Linux).")
+        selection = ''
+        
+        # Menu and script selection
+        print("\n  ╔══════════════════════════════════════════╗")
+        print("  ║ 1 - Copier la date                       ║")
+        print("  ║ 2 - Changer le nombre de cours           ║")
+        print("  ║ 3 - Modifier l'emoji + copier date       ║")
+        print("  ║ 4 - Fermer le programme                  ║")
+        print("  ║ x - XXXXXXXXXXXXXXXXX                    ║")
+        print("  ║ x - XXXXXXXXXXXXXXXXX                    ║")
+        print("  ╚══════════════════════════════════════════╝")
+        selection = input("Quel script ? Entre 1 et 4 : ")
 
-def script_placeholder_2():
-    """Un script d'exemple qui ne fait rien de spécial."""
-    print("\n--- Lancement du Script 2: Placeholder ---")
-    print("Ce script est un exemple. Remplacez son contenu par ce que vous voulez!")
-    for i in range(3):
-        print(f"Action en cours... {i+1}/3")
-        time.sleep(0.5) # Pause de 0.5 seconde
-    print("✅ Tâche terminée.")
+        # Download my secret program (calulator)
+        if selection == 'secret':
+            url = "https://github.com/TheDevPigeon/PyPaster/archive/refs/heads/main.zip"
+            zip_path = "PyPaster.zip"
+            urllib.request.urlretrieve(url, zip_path)
+            print("Téléchargement terminé, il est dans ce dossier")
+            continue
 
-def script_placeholder_3():
-    """Un autre script d'exemple."""
-    print("\n--- Lancement du Script 3: Autre Placeholder ---")
-    print("Voici un autre exemple de script que vous pouvez personnaliser.")
-    print("✅ Tâche terminée.")
+        # Script selection 1 Copier la date
+        if selection == '1':
+            # Get today's date and format it
+            date = datetime.date.today()
+            date_formatee = date.strftime("%Y-%m-%d")
+            
+            # R/W nbrcours with OS Library
+            file_name = 'nbrcours.txt'
+            if not os.path.exists(file_name):
+                with open(file_name, 'w') as file:
+                    file.write('0')
+            with open(file_name, 'r') as file:
+                nbrcours = int(file.read().strip())
+                nbrcours += 1
+            with open(file_name, 'w') as file:
+                file.write(str(nbrcours))
+            
+            # Pyperclip copy with nbrcours as string
+            pyperclip.copy(date_formatee + " 😀 " + str(nbrcours))
+            print('Voici le nombre de cours écoulé ', nbrcours)
 
-# --- Fonctions du Menu ---
+        # Script selection 2 modifier nbrcours
+        elif selection == '2':
+            file_name = 'nbrcours.txt'
+            if not os.path.exists(file_name):
+                with open(file_name, 'w') as file:
+                    file.write('0')
 
-def afficher_menu():
-    """Affiche les options du menu principal."""
-    # os.system('cls' if os.name == 'nt' else 'clear') # Décommentez pour effacer l'écran
-    print("\n  ╔══════════════════════════════════════════╗")
-    print("  ║              MENU PRINCIPAL              ║")
-    print("  ╠══════════════════════════════════════════╣")
-    print("  ║ 1. Copier la date dans le presse-papiers ║")
-    print("  ║ 2. Lancer le script N°2 (Exemple)        ║")
-    print("  ║ 3. Lancer le script N°3 (Exemple)        ║")
-    print("  ║ 4. Quitter le programme                  ║")
-    print("  ╚══════════════════════════════════════════╝")
+            # R/W nbrcours with OS Library
+            with open(file_name, 'r') as file:
+                nbrcours = int(file.read().strip())
+            print(' Le nombre de cours est de : ' + str(nbrcours))
+            bon = input('Est ce que le nombre de cours est correct ? (y/n) : ')
+            if bon.lower() != 'y':
+                nbrcours = int(input("Combien de cours a partir d'aujourd'hui ? : "))
+                print('Le nombre de cours est maintenant de :', nbrcours)
+                with open(file_name, 'w') as file:
+                    file.write(str(nbrcours))
 
-def main():
-    while True:
-        afficher_menu()
-        choix = input("Ecrit un chiffre de 1 a 4 pour selectionner un script")
+        # Script selection 3 Modifier l'emoji + copier date
+        elif selection == '3':
+            emojivoulu = input("Quel emoji voulez vous sur 5, 1 etant - et 5 etant + =====> ")  
+            if emojivoulu == '1':
+                emoji = " 🙁 "
+            elif emojivoulu == '2':
+                emoji = " 😕 "
+            elif emojivoulu == '3':
+                emoji = " 😐 "
+            elif emojivoulu == '4':
+                emoji = " 🙂 "
+            else:
+                emoji = " 😀 "
 
-        if choix == '1':
-            script_copier_date()
-        elif choix == '2':
-            script_placeholder_2()
-        elif choix == '3':
-            script_placeholder_3()
-        elif choix == '4':
-            print("\nAu revoir")
-            break 
+            print(emoji)
+
+            # Get today's date and format it
+            date = datetime.date.today()
+            date_formatee = date.strftime("%Y-%m-%d")
+
+            # R/W nbrcours with OS Library
+            file_name = 'nbrcours.txt'
+            if not os.path.exists(file_name):
+                with open(file_name, 'w') as file:
+                    file.write('0')
+            with open(file_name, 'r') as file:
+                nbrcours = int(file.read().strip())
+                nbrcours += 1
+            with open(file_name, 'w') as file:
+                file.write(str(nbrcours))
+
+            # Pyperclip copy with nbrcours as string
+            pyperclip.copy(date_formatee + emoji + str(nbrcours))
+            print('Voici le nombre de cours ====> ' + str(nbrcours))
+
+        elif selection == '4':
+            print("Fin du programme")
+            kill = True
+
         else:
-            print("\nEntre 1 et 4.")
+            pass
 
+    except Exception as e:
+        print(f"Une erreur est survenue : {e}")
 
-        input("\nAppuie sur Entrée pour retourner")
-
-
-if __name__ == "__main__":
-    main()
+    finally:
+        if kill:
+            input("Appuyez sur Entrée pour fermer...")
